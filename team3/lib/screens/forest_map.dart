@@ -21,56 +21,100 @@ class _ForestMapState extends State<ForestMap> {
               fit: BoxFit.cover,
             ),
           ),
-          // 버튼 1
+          // 경고 버튼 1과 CCTV 버튼
           Positioned(
             top: 100, // Y 좌표
             left: 50, // X 좌표
-            child: IconButton(
-              icon: const Icon(Icons.warning_amber_rounded),
-              color: Colors.red,
-              iconSize: 40,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context)=> const DeviceCamera())
-                );
-              },
+            child: Column(
+              children: [
+                // 경고 버튼
+                IconButton(
+                  icon: const Icon(Icons.warning_amber_rounded),
+                  color: Colors.green,
+                  iconSize: 40,
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('화재 경보: 위치 1')),
+                    );
+                  },
+                ),
+                // CCTV 버튼 (Flutter 기본 아이콘 사용)
+                IconButton(
+                  icon: const Icon(Icons.videocam_outlined), // 기본 아이콘 사용
+                  color: Colors.white70, // 아이콘 색상
+                  iconSize: 40, // 크기를 작게 설정
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('CCTV: 위치 1')),
+                    );
+                  },
+                  splashColor: Colors.transparent, // 클릭 시 배경 투명
+                  highlightColor: Colors.transparent, // 클릭 시 배경 투명
+                ),
+              ],
             ),
           ),
-          // 버튼 2
+          // 경고 버튼 2와 CCTV 버튼
           Positioned(
-            top: 200, // Y 좌표
-            right: 70, // X 좌표
-            child: IconButton(
-              icon: const Icon(Icons.warning_amber_rounded),
-              color: Colors.orange,
-              iconSize: 40,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context)=> const DeviceCamera())
-                );
-              },
+            top: 200,
+            right: 70,
+            child: Column(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.warning_amber_rounded),
+                  color: Colors.red,
+                  iconSize: 40,
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('화재 경보: 위치 2')),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.videocam_outlined), // 기본 아이콘 사용
+                  color: Colors.white70, // 아이콘 색상
+                  iconSize: 40, // 크기를 작게 설정
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const DeviceCamera())
+                    );
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+              ],
             ),
           ),
-          // 버튼 3
+          // 경고 버튼 3와 CCTV 버튼
           Positioned(
-            bottom: 150, // Y 좌표
-            left: 150, // X 좌표
-            child: IconButton(
-              icon: const Icon(Icons.warning_amber_rounded),
-              color: Colors.yellow,
-              iconSize: 40,
-              onPressed: () {
-                // // 버튼 3 클릭 시 동작
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   const SnackBar(content: Text('화재 경보: 위치 3')),
-                // );
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context)=> const DeviceCamera())
-                );
-              },
+            bottom: 150,
+            left: 150,
+            child: Column(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.warning_amber_rounded),
+                  color: Colors.green,
+                  iconSize: 40,
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('화재 경보: 위치 3')),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.videocam_outlined), // 기본 아이콘 사용
+                  color: Colors.white70, // 아이콘 색상
+                  iconSize: 40, // 크기를 작게 설정
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('CCTV: 위치 3')),
+                    );
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+              ],
             ),
           ),
         ],
