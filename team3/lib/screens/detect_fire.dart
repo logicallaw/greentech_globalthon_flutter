@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert'; // Base64 변환을 위해 추가
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -61,17 +62,24 @@ class CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _sendImageToServer(File image) async {
-    final url = Uri.parse('http://your-api-server.com/upload');
-    final request = http.MultipartRequest('POST', url)
-      ..files.add(await http.MultipartFile.fromPath('image', image.path));
-
     try {
-      final response = await request.send();
+      // 이미지를 Base64로 변환
+      final bytes = await image.readAsBytes();
+      final base64Image = base64Encode(bytes);
+
+      // JSON 데이터 생성
+      // HTTP POST 요청 보내기
+      final response = await http.post(
+        Uri.parse('https://www.logical-law.com/detect/send_image'),
+        body: {
+          'base64Image': base64Image,
+        },
+      );
+
       if (response.statusCode == 200) {
-        final responseData = await response.stream.bytesToString();
-        print('Server Response: $responseData');
+        print('Server Response: ${response.body}');
       } else {
-        print('Error: ${response.statusCode}');
+        print('Error: ${response.statusCode}, Body: ${response.body}');
       }
     } catch (e) {
       print('Failed to send image: $e');
