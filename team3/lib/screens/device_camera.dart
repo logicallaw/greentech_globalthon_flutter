@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class DeviceCamera extends StatefulWidget {
   const DeviceCamera({super.key});
@@ -12,6 +15,12 @@ class _DeviceCameraState extends State<DeviceCamera> {
   final List<String> cctvImages = [
     'assets/images/1.png',
     'assets/images/2.png',
+    'assets/images/3.png',
+    'assets/images/4.png',
+    'assets/images/5.png',
+    'assets/images/6.png',
+    'assets/images/7.png',
+    'assets/images/8.png',
   ];
   int currentIndex = 0; // 현재 이미지 인덱스
   late Timer _timer;
@@ -22,24 +31,69 @@ class _DeviceCameraState extends State<DeviceCamera> {
   @override
   void initState() {
     super.initState();
-    // 1초마다 이미지 변경
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        currentIndex = (currentIndex + 1) % cctvImages.length; // 인덱스 순환
-      });
-    });
 
-    // 서버 응답 시뮬레이션
-    fetchDataFromServer();
+    // 1초마다 이미지 변경 및 서버 전송
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      setState(() {
+        currentIndex = (currentIndex + 7) % cctvImages.length; // 인덱스 순환
+      });
+
+      // 에셋에서 파일 읽기 및 서버 전송
+      final imagePath = cctvImages[currentIndex];
+      try {
+        final base64Image = await loadAndEncodeImage(imagePath);
+        await _sendImageToServer(base64Image); // 이미지 전송
+      } catch (e) {
+        print('Error loading or sending image: $e');
+      }
+    });
   }
 
-  // 서버로부터 데이터 가져오기 (시뮬레이션)
-  Future<void> fetchDataFromServer() async {
-    await Future.delayed(const Duration(seconds: 2)); // 2초 후 데이터 수신
-    setState(() {
-      fireStatus = "On Fire"; // 서버에서 받은 화재 상태
-      accuracy = 95.34; // 서버에서 받은 정확도 (예제 값)
-    });
+  /// 에셋 파일을 로드하고 Base64로 인코딩한 문자열 반환
+  Future<String> loadAndEncodeImage(String assetPath) async {
+    try {
+      // Flutter 에셋 파일 로드
+      final byteData = await rootBundle.load(assetPath);
+      final Uint8List bytes = byteData.buffer.asUint8List();
+
+      // Base64로 인코딩
+      final base64String = base64Encode(bytes);
+      return base64String;
+    } catch (e) {
+      throw Exception('Failed to load or encode image: $e');
+    }
+  }
+
+  Future<void> _sendImageToServer(String base64Image) async {
+    try {
+      final response = await http.post(
+        Uri.parse('https://www.logical-law.com/detect/send_image'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'base64Image': base64Image}),
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+
+        setState(() {
+          fireStatus = responseData['message'] ?? 'No message';
+
+          // probability 값을 안전하게 double로 변환
+          final dynamic probabilityValue = responseData['probability'];
+          if (probabilityValue is int) {
+            accuracy = probabilityValue.toDouble() * 100; // int를 double로 변환
+          } else if (probabilityValue is double) {
+            accuracy = probabilityValue * 100; // 이미 double인 경우
+          } else {
+            accuracy = 0.0; // 다른 경우 기본값
+          }
+        });
+      } else {
+        print('Error: ${response.statusCode}, Body: ${response.body}');
+      }
+    } catch (e) {
+      print('Failed to send image: $e');
+    }
   }
 
   @override
