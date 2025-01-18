@@ -125,6 +125,7 @@ class _DeviceCameraState extends State<DeviceCamera> {
                 height: 280, // 고정된 높이
                 width: MediaQuery.of(context).size.width, // 화면 너비에 맞춤
                 fit: BoxFit.cover, // 박스에 맞게 이미지 크기 조정
+                gaplessPlayback: true,
               ),
             ),
           ),

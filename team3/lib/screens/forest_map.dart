@@ -117,6 +117,66 @@ class _ForestMapState extends State<ForestMap> {
               ],
             ),
           ),
+          Positioned(
+            bottom: 300,
+            left: 50,
+            child: Column(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.warning_amber_rounded),
+                  color: Colors.green,
+                  iconSize: 40,
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('화재 경보: 위치 3')),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.videocam_outlined), // 기본 아이콘 사용
+                  color: Colors.white70, // 아이콘 색상
+                  iconSize: 40, // 크기를 작게 설정
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('CCTV: 위치 3')),
+                    );
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 350,
+            left: 300,
+            child: Column(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.warning_amber_rounded),
+                  color: Colors.green,
+                  iconSize: 40,
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('화재 경보: 위치 3')),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.videocam_outlined), // 기본 아이콘 사용
+                  color: Colors.white70, // 아이콘 색상
+                  iconSize: 40, // 크기를 작게 설정
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('CCTV: 위치 3')),
+                    );
+                  },
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
