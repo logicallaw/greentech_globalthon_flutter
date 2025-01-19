@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class DeviceCamera extends StatefulWidget {
@@ -22,6 +23,7 @@ class _DeviceCameraState extends State<DeviceCamera> {
     'assets/images/7.png',
     'assets/images/8.png',
   ];
+  final String baseUrl = dotenv.get('GCP_SERVER');
   int currentIndex = 0; // 현재 이미지 인덱스
   late Timer _timer;
 
@@ -67,7 +69,7 @@ class _DeviceCameraState extends State<DeviceCamera> {
   Future<void> _sendImageToServer(String base64Image) async {
     try {
       final response = await http.post(
-        Uri.parse('https://www.logical-law.com/detect/send_image'),
+        Uri.parse(baseUrl),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'base64Image': base64Image}),
       );
