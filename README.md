@@ -1,5 +1,5 @@
 # ☘️ High Hackers by Team 3
-This is 2025 GreenTech Globalthon Frontend.
+This is 2025 GreenTech Globalthon Front-end.
 
 ## 👥 My Team Contributors
 
@@ -8,4 +8,4 @@ This is 2025 GreenTech Globalthon Frontend.
 | Nilufar Kurbonova | Team Leader, Planning | 
 | Nozima            | Researching           |
 | Lim Sun-Jong      | AI                    |
-| Kim JunHo         | Backend, Frontend     |
+| Kim JunHo         | Back-end, Front-end   |
